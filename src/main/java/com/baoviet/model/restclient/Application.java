@@ -20,6 +20,7 @@ import org.springframework.hateoas.client.Traverson;
 import org.springframework.hateoas.hal.Jackson2HalModule;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 
 import static org.springframework.hateoas.client.Hop.rel;
 
@@ -44,6 +45,15 @@ public class Application {
     public static void main(String[] args) throws Exception {
         ApplicationContext context = new AnnotationConfigApplicationContext(Application.class);
         PersonClient client = context.getBean(PersonClient.class);
+        test2(client);
+
+    }
+
+    private static void test2(PersonClient client) throws URISyntaxException {
+        System.out.println(client.getPersons(1, 2));
+    }
+
+    private static void test1(PersonClient client) throws URISyntaxException {
         System.out.println(client.getPersons());
         System.out.println(client.getPerson(1));
 
@@ -60,6 +70,5 @@ public class Application {
         traverson = new Traverson(new URI("http://127.0.0.1:7101/baoviet-webapp/api/people/9"), MediaTypes.HAL_JSON);
         Person p = traverson.follow(rel("self")).toObject(Person.class);
         System.out.println(p);
-
     }
 }
